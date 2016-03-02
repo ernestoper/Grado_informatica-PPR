@@ -1,10 +1,20 @@
 /*
  ============================================================================
- Name        : comunicadores1.cpp
- Author      : Sergio Rodríguez Lumley & Daniel Guerrero Martínez
+ Name        : comunicadores2.cpp
+ Author      : Marlene Vásquez
  Version     :
  Copyright   : GNU Open Source and Free license
- Description : Comunicadores
+ Description : Comunicadores 
+               Crea 3 comunicadores nuevos (MPI_Comm_split):
+               Una vez obtenidos los comunicadores, el proceso 0 (del comunicador global)
+               tendrá inicialmente variables (que denominaremos 'a' y 'b') 
+               que valdrán 2000 y 1 respectivamente. El resto de procesos tendrán esas dos 
+               variables inicializadas con el valor 0. El proceso 0 (en el comunicador global) 
+               difundirá el valor 'a' por el comunicador asociado a los procesos pares, con lo 
+               que el grupo de impares no debería recibir el nuevo valor de 'a'. 
+               Respecto al valor de 'b', el proceso 0 (en el comunicador global) deberá difundirlo 
+               por el tercer comunicador (el de rangos inversos) y todos los procesos deberían 
+               recibirlo.
  ============================================================================
  */
  
@@ -12,66 +22,75 @@
 #include <vector>
 #include <cstdlib>
 #include <iostream>
+ 
 using namespace std;
 
 int main(int argc, char *argv[]) {
-    int rank, size;
+    int rank, size ,a,b;
+   
 
     MPI_Init(&argc, &argv); //iniciamos el entorno MPI
     MPI_Comm_rank(MPI_COMM_WORLD, &rank); //obtenemos el identificador del proceso
     MPI_Comm_size(MPI_COMM_WORLD, &size); //obtenemos el numero de procesos
 
-    MPI_Comm comm // nuevo comunicador para pares o impares
-            , comm_inverso; // nuevo para todos los procesos pero con rank inverso.
-    int rank_inverso, size_inverso;
-    int rank_nuevo, size_nuevo;
-    int a;
-    int b;
+    MPI_Comm comm_pares, // nuevo comunicador para pares
+    	comm_impares, // nuevo comunicador para  impares
+    	comm_inverso; // nuevo para todos los procesos pero con rank inverso.
 
-    if (rank == 0) {
-        a = 2000;
-        b = 1;
-    } else {
-        a = 0;
-        b = 0;
+    if(rank == 0 ){
+    	a= 2000;
+    	b= 1;
+    }else{
+    	a=0;
+    	b=0;
     }
 
-    int color = rank % 2;
+    int color = rank %2 ;
+
     // creamos un nuevo cominicador
     MPI_Comm_split(MPI_COMM_WORLD // a partir del comunicador global.
             , color // los del mismo color entraran en el mismo comunicador
             // lo pares tiene color 0 y los impares 1.
             , rank, // indica el orden de asignacion de rango dentro de los nuevos comunicadores
-            &comm); // Referencia al nuevo comunicador creado.
+            &comm_pares); // Referencia al nuevo comunicador creado.
+
+     // creamos un nuevo cominicador
+    MPI_Comm_split(MPI_COMM_WORLD // a partir del comunicador global.
+            , color // los del mismo color entraran en el mismo comunicador
+            // lo pares tiene color 0 y los impares 1.
+            , rank, // indica el orden de asignacion de rango dentro de los nuevos comunicadores
+            &comm_impares); // Referencia al nuevo comunicador creado.
+
     // creamos un nuevo comunicador inverso.
     MPI_Comm_split(MPI_COMM_WORLD, // a partir del comunicador global.
             0 // el color es el mismo para todos.
             , -rank // el orden de asignacion para el nuevo rango es el inverso al actual.
             , &comm_inverso); // Referencia al nuevo comunicador creado.
 
-    MPI_Comm_rank(comm, &rank_nuevo); // obtenemos el nuevo rango asignado dentro de comm
-    MPI_Comm_size(comm, &size_nuevo); // obtenemos numero de procesos dentro del comunicador
-
-    MPI_Comm_rank(comm_inverso, &rank_inverso); // obtenemos el nuevo rango asignado en comm_inverso
-    MPI_Comm_size(comm_inverso, &size_inverso); // obtenemos numero de procesos dentro del comunicador
 
     //Probamos a enviar datos por distintos comunicadores
     MPI_Bcast(&b, 1, MPI_INT,
             size - 1, // el proceso con rango 0 dentro de MPI_COMM_WORLD sera root
             comm_inverso);
+
     if (color==0) // Sólo para los pares
         MPI_Bcast(&a, 1, MPI_INT,
             0, // el proceso con rango 0 dentro de comm sera root
-            comm);
-	else a=0;
+            comm_pares);
+	else {
+			a=0;
+			MPI_Bcast(&a, 1, MPI_INT,
+            0, // el proceso con rango 0 dentro de comm sera root
+            comm_impares);
+		}
 
-    cout << "Soy el proceso " << rank << " de " << size << " dentro de MPI_COMM_WORLD,"
-            "\n\t mi rango en COMM_nuevo es " << rank_nuevo << ", de " << size_nuevo <<
-			", aqui he recibido el valor " << a <<
-            ",\n\ten COMM_inverso mi rango es " << rank_inverso << " de " << size_inverso <<
-			" aqui he recibido el valor " << b <<"\n"<< endl;
+    cout << "Soy el proceso " << rank <<  " he recibido el valor de a = "<< a 
+    <<" y el valor de b = "<< b << endl;
 
 
     MPI_Finalize();
     return 0;
+
+
+    
 }

@@ -2,7 +2,7 @@
 # Autor:	Marlene Vásquez
 #==========================================
 .SUFFIXES:
-.PHONY:    msg,mc1,mc2,clean
+.PHONY:    msg,cm1,cm2,clean
 #==========================================
 msg:
 	@echo "usa 'make cm1' para ejecutar comunicadores - solución inicial."
@@ -14,14 +14,14 @@ flagsc     := -g -Wall
 #==========================================
 #	COMUNICADORES1
 #==========================================
-mc1: comunicadores1
-	mpirun -np 10 comunicadores1
+cm1: comunicadores1
+	mpirun -np 5 comunicadores1
 
 #==========================================
 #	COMUNICADORES 2
 #==========================================
-mc2: comunicadores2
-	mpirun -np 10 comunicadores2
+cm2: comunicadores2
+	mpirun -np 5 comunicadores2
 
 #==========================================
 #	ejecutables
