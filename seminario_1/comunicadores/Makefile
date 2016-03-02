@@ -1,0 +1,36 @@
+#========================================== 	
+# Autor:	Marlene Vásquez
+#==========================================
+.SUFFIXES:
+.PHONY:    msg,mc1,mc2,clean
+#==========================================
+msg:
+	@echo "usa 'make cm1' para ejecutar comunicadores - solución inicial."
+	@echo "usa 'make cm2' para ejecutar comunicadores - solucion modificada."
+	@echo "usa 'make clean' para borrar todos los archivos creados al compilar."
+#==========================================
+compilador := mpicxx
+flagsc     := -g -Wall
+#==========================================
+#	COMUNICADORES1
+#==========================================
+mc1: comunicadores1
+	mpirun -np 10 comunicadores1
+
+#==========================================
+#	COMUNICADORES 2
+#==========================================
+mc2: comunicadores2
+	mpirun -np 10 comunicadores2
+
+#==========================================
+#	ejecutables
+#==========================================
+%: %.cpp
+	$(compilador) $(flagsc) -o $@ $<
+
+#==========================================
+#	clean
+#==========================================
+clean:
+	rm -f comunicadores1 comunicadores2 *~ 
