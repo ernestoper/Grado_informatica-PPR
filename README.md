@@ -16,7 +16,7 @@
 
 ### Seminarios 
 
-- Seminario 1. Introducción al desarrollo de programas paralelos. 
+- Seminario 1. Introducción al desarrollo de programas paralelos. [tarea]()
 - Seminario 2. Introducción a la programación de GPUs usando CUDA.
 - Seminario 3. Introducción al uso de lenguajes y herramientas de programación paralela para sistemas basados en memoria compartida [Tutorial interactivo][2]. 
 
