@@ -67,7 +67,6 @@ int main(int argc, char *argv[]) {
             , -rank // el orden de asignacion para el nuevo rango es el inverso al actual.
             , &comm_inverso); // Referencia al nuevo comunicador creado.
 
-
     //Probamos a enviar datos por distintos comunicadores
     MPI_Bcast(&b, 1, MPI_INT,
             size - 1, // el proceso con rango 0 dentro de MPI_COMM_WORLD sera root

@@ -2,7 +2,7 @@
 # Autor:	Marlene Vásquez
 #==========================================
 .SUFFIXES:
-.PHONY:    msg,cm1,cm2,clean
+.PHONY:    msg,cm1,cm2, cm3, clean
 #==========================================
 msg:
 	@echo "usa 'make cm1' para ejecutar comunicadores - solución inicial."
@@ -21,8 +21,13 @@ cm1: comunicadores1
 #	COMUNICADORES 2
 #==========================================
 cm2: comunicadores2
-	mpirun -np 5 comunicadores2
+	mpirun -np 15 comunicadores2
 
+#==========================================
+#	COMUNICADORES 3
+#==========================================
+cm3: comunicadores3
+	mpirun -np 15 comunicadores3
 #==========================================
 #	ejecutables
 #==========================================
@@ -33,4 +38,4 @@ cm2: comunicadores2
 #	clean
 #==========================================
 clean:
-	rm -f comunicadores1 comunicadores2 *~ 
+	rm -f comunicadores1 comunicadores2 comunicadores3 *~ 
