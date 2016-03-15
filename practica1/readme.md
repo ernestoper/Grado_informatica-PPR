@@ -1,7 +1,7 @@
 #Practica 1
 
 
-## Floyd-Reparto unidimensional
+## Floyd - Unidimensional
 #Resultados
 *Recogida de tiempos*
 
@@ -17,7 +17,7 @@ N	|P = 1 (secuencial)	| P = 4		|Ganancia (Ts/Tp)	| Eficiencia (G/P)
 4320	| 1.377,410000		| 52,8313000	| 26,0719		| 6,518
 8740	| 3.762,850000		| 718,8400000	| 5,2346		| 1,309
 
-## Floyd-Reparto Bidimensional
+## Floyd - Bidimensional
 #Resultados
 *Recogida de tiempos*
 
