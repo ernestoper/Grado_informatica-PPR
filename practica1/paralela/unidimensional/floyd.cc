@@ -4,7 +4,7 @@
  Author      : Marlene Vásquez
  Version     :
  Copyright   : GNU Open Source and Free license
- Description : Algoridmo de FLOYD con reparto unidimensional (MPI)
+ Description : Algoritmo de FLOYD con reparto unidimensional (MPI)
 ============================================================================
 */
 #include "mpi.h"
