@@ -9,7 +9,7 @@
 ### Programación de prácticas
 
 - [Práctica 1]. Implementación distribuida de un algoritmo paralelo de datos usando Algoritmo de Floyd Descomposición 1D y 2D. 
-- Práctica 2. Implementación distribuida de un algoritmo de equilibrado dinámico de usando MPI.
+- [Práctica 2]. Implementación distribuida de un algoritmo de equilibrado dinámico de usando MPI.
 - Práctica 3. Implementación de algoritmos paralelos de datos en GPU usando CUDA. 
 - Practica 4. Implementación paralela multihebra de algoritmos modelo usando OPENMP.
 
@@ -26,6 +26,8 @@
  
 
 [Práctica 1]: <https://github.com/marlenelis/PPR/blob/master/practica1/readme.md>
+
+[Práctica 2]:<https://github.com/marlenelis/PPR/blob/master/practica2/readme.md>
 
 [Seminario 1]: <https://github.com/marlenelis/PPR/blob/master/seminario_1/readme.md>
 [1]:https://lsi.ugr.es/~jmantas/ppr
