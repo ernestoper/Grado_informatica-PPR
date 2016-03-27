@@ -24,5 +24,6 @@ Implementar un programa que resuelva caminos cortos mediante el algoritmo de Flo
 
 [Muestras]
 [Memoria]
-[Muestras]:<https://docs.google.com/spreadsheets/d/10_mLALcAeCCURzaxg6akLhs4uU_wxpU2_6N1vRDt-jQ/edit?usp=sharing>
-[Memoria]:<https://docs.google.com/document/d/1y6UYvQ9jYgImtuvHhl3StV71TDN01yaxJvtvgBmXLRo/edit?usp=sharing>
+[Muestras]:https://docs.google.com/spreadsheets/d/10_mLALcAeCCURzaxg6akLhs4uU_wxpU2_6N1vRDt-jQ/edit?usp=sharing
+
+[Memoria]:https://docs.google.com/document/d/1y6UYvQ9jYgImtuvHhl3StV71TDN01yaxJvtvgBmXLRo/edit?usp=sharing
