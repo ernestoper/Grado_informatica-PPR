@@ -45,11 +45,11 @@ int main (int argc, char *argv[])
     {
       G.lee(argv[1]);   // Read the Graph
       nverts = G.vertices; //se obtiene el número de vértices.
-      // if (nverts < 100)
-      // {
-      //   cout << "EL Grafo de entrada es:"<<endl;
-      //   G.imprime();
-      // }
+      if (nverts < 100)
+      {
+        cout << "EL Grafo de entrada es:"<<endl;
+        G.imprime();
+      }
     }
     //===================================================================
     //realiza el reparto del nº de vertices a todo los procesos 
@@ -147,7 +147,7 @@ int main (int argc, char *argv[])
     jEnd  = (color_col + 1) * size_col; 
  
     MPI_Barrier(MPI_COMM_WORLD);//  Espera a todos los procesos 
-     double t = MPI::Wtime(); // Se obtiene el tiempo de inicio
+    double t = MPI::Wtime(); // Se obtiene el tiempo de inicio
   //=========================================================================
   //          BUCLE DEL ALGORITMO
   //=========================================================================   
@@ -157,14 +157,14 @@ int main (int argc, char *argv[])
         local = k % size_fil;
       //=======================================================
         //------copiar fila----------
-        if (k >= iInit && k < iEnd)
+        if (k >= iInit && k <= iEnd)
           for(int jL = 0; jL < size_fil; jL++)
             fil[jL]= buf_recep[local * size_col + jL];              
         //MPI_Barrier(comm_col); 
         MPI_Bcast( fil, size_fil, MPI_INT, root, comm_col );
       //=======================================================             
         //-------copiar columna--------- 
-        if (k >= jInit && k < jEnd)       
+        if (k >= jInit && k <=jEnd)       
           for(int jL = 0; jL < size_col; jL++)
             col[jL]= buf_recep[ jL* size_fil + local ];
        // MPI_Barrier(comm_fil);    
@@ -175,7 +175,7 @@ int main (int argc, char *argv[])
           for (j= 0; j < size_col; j++)  {   
             jG = jInit + j;
             if (iG != jG && iG != k && jG != k) 
-              buf_recep[ i*tam +j ] = min(buf_recep[ i*tam+j ], col[i] + fil[j]);
+              buf_recep[ i*tam +j ] = min(buf_recep[ i * tam + j ], col[i] + fil[j]);
           }
         }
     }      
@@ -192,7 +192,6 @@ int main (int argc, char *argv[])
                 MPI_PACKED, //tipo de dato a recibir
                 0, // proceso raiz 
                 MPI_COMM_WORLD);// comunicador utilizado (En este caso, el  global)
-
 //==================================================================
 //                    Desmpaquetado
 //==================================================================
@@ -201,8 +200,7 @@ int main (int argc, char *argv[])
     /* Defino el tipo bloque cuadrado*/
     MPI_Type_vector(size_fil , size_col, nverts , MPI_INT, &MPI_BLOQUE);
       /*Creo el nuevo tipo*/
-    MPI_Type_commit(&MPI_BLOQUE);
-    
+    MPI_Type_commit(&MPI_BLOQUE);    
       for (int ii = 0, posicion = 0; ii< size; ii++)
       {           
           /* Calculo la posicion  de comienzo de cada submatriz*/
@@ -222,21 +220,18 @@ int main (int argc, char *argv[])
     MPI_Type_free(&MPI_BLOQUE);
   }
 
-  MPI::Finalize();
-
-  
+  MPI::Finalize();  
 //==================================================================
 //                    Impresion del Grafo
 //==================================================================
   if (rank == 0)//solo lo realiza el proceso 0
   {
-      // if (nverts < 100)
-      // {
-      //  cout << endl<<"EL Grafo con las distancias de los caminos más cortos es:"<<endl<<endl;
-      // G.imprime();
-      // } 
-      //cout<<" Tiempo gastado = ";       
-      cout<< t <<endl;
+      if (nverts < 100)
+      {
+       cout << endl<<"EL Grafo con las distancias de los caminos más cortos es:"<<endl<<endl;
+      G.imprime();
+      } 
+     cout<< "Tiempo gastado= "<<t<<endl<<endl; 
    }
 
   free(buf_envio);

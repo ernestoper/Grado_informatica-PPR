@@ -73,6 +73,7 @@ int main(int argc, char *argv[]) {
             MPI_LONG, // Tipo del dato que se recibira
             0,  // proceso principal que reparte los datos
             MPI_COMM_WORLD); // Comunicador (En este caso, el global)
+
     // Repartimos los valores del vector B
     MPI_Scatter(&VectorB[0],
             tama / size,

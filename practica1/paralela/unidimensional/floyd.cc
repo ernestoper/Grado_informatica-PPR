@@ -45,11 +45,11 @@ int main (int argc, char *argv[])
       G.lee(argv[1]);   // Read the Graph
       nverts = G.vertices; //se obtiene el número de vértices.
 
-      // if (nverts < 100)
-      // {
-        //cout << "EL Grafo de entrada es:"<<endl;
-        //G.imprime();
-     // }
+      if (nverts < 100)
+      {
+        cout << "EL Grafo de entrada es:"<<endl;
+        G.imprime();
+      }
     }
   //============================================================================
   //realiza el reparto del nº de vertices a todo los procesos 
@@ -97,9 +97,9 @@ int main (int argc, char *argv[])
       root = k / tam_Bloque;
       local = k % tam_Bloque;
     
-      if (k >= iInit && k < iEnd)
+      if (k >= iInit && k <= iEnd)
       for(int jL = 0; jL < nverts; jL++)
-        vector_aux_K[jL] = matriz_local[local * nverts +jL ];        
+        vector_aux_K[jL] = matriz_local[local * nverts + jL ];        
       //***********  Compartiendo  k   ********************      
       MPI_Bcast(  vector_aux_K,//vector que se comparte
                   nverts, // numero de datos
@@ -110,8 +110,8 @@ int main (int argc, char *argv[])
         for (i = 0; i < tam_Bloque; i++) {
           iG = iInit + i; 
           for (j = 0; j < nverts; j++)   
-             if (iG != j && iG != k && j != k)        
-                matriz_local[i * nverts + j] = min( matriz_local[i* nverts + j], matriz_local[i * nverts + k] + vector_aux_K[j]);                    
+             if (iG != j && iG != k && j != k)                       
+                matriz_local[i * nverts + j] = min( matriz_local[i* nverts + j], matriz_local[i * nverts + k] + vector_aux_K[j]);                               
         }       
     }
 
@@ -134,12 +134,17 @@ int main (int argc, char *argv[])
   //============================================================================
    if (rank == 0)//solo lo realiza el proceso 0
    {
-      // if (nverts < 100)
-      // {
-      //   cout << endl<<"EL Grafo con las distancias de los caminos más cortos es:"<<endl<<endl;
-      //   G.imprime();
-      // }        
-      cout<<t<<endl;
+      if (nverts < 100)
+      {
+         cout << endl<<"EL Grafo con las distancias de los caminos más cortos es:"<<endl<<endl;
+        G.imprime();
+      } 
+     cout<< "Tiempo gastado= "<<t<<endl<<endl; 
    }
-    return (0);
+
+   free(ptr_matriz);
+   free(matriz_local);
+   free(vector_aux_K);
+   
+  return (0);
 }
