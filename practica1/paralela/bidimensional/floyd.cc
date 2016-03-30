@@ -45,11 +45,11 @@ int main (int argc, char *argv[])
     {
       G.lee(argv[1]);   // Read the Graph
       nverts = G.vertices; //se obtiene el número de vértices.
-      if (nverts < 100)
-      {
-        cout << "EL Grafo de entrada es:"<<endl;
-        G.imprime();
-      }
+      // if (nverts < 100)
+      // {
+      //   cout << "EL Grafo de entrada es:"<<endl;
+      //   G.imprime();
+      // }
     }
     //===================================================================
     //realiza el reparto del nº de vertices a todo los procesos 
@@ -157,14 +157,14 @@ int main (int argc, char *argv[])
         local = k % size_fil;
       //=======================================================
         //------copiar fila----------
-        if (k >= iInit && k <= iEnd)
+        if (k >= iInit && k < iEnd)
           for(int jL = 0; jL < size_fil; jL++)
             fil[jL]= buf_recep[local * size_col + jL];              
         //MPI_Barrier(comm_col); 
         MPI_Bcast( fil, size_fil, MPI_INT, root, comm_col );
       //=======================================================             
         //-------copiar columna--------- 
-        if (k >= jInit && k <=jEnd)       
+        if (k >= jInit && k <jEnd)       
           for(int jL = 0; jL < size_col; jL++)
             col[jL]= buf_recep[ jL* size_fil + local ];
        // MPI_Barrier(comm_fil);    
@@ -226,13 +226,15 @@ int main (int argc, char *argv[])
 //==================================================================
   if (rank == 0)//solo lo realiza el proceso 0
   {
-      if (nverts < 100)
-      {
-       cout << endl<<"EL Grafo con las distancias de los caminos más cortos es:"<<endl<<endl;
-      G.imprime();
-      } 
-     cout<< "Tiempo gastado= "<<t<<endl<<endl; 
+     //  if (nverts < 100)
+     //  {
+     //   cout << endl<<"EL Grafo con las distancias de los caminos más cortos es:"<<endl<<endl;
+     //  G.imprime();
+     //  } 
+     // cout<< "Tiempo gastado= "<<t<<endl<<endl; 
+    cout<< t << "\t";
    }
+
 
   free(buf_envio);
   free(buf_recep);

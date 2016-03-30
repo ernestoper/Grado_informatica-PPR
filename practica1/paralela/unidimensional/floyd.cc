@@ -7,13 +7,13 @@
  Description : Algoritmo de FLOYD con reparto unidimensional (MPI)
 ============================================================================
 */
-#include "mpi.h"
 #include <iostream>
+#include <stdlib.h> 
 #include <fstream>
 #include <string.h>
-#include <vector>
 #include "Graph.h"
-#include <math.h>  
+#include "mpi.h"
+#include <math.h> 
 
 using namespace std;
 
@@ -45,11 +45,11 @@ int main (int argc, char *argv[])
       G.lee(argv[1]);   // Read the Graph
       nverts = G.vertices; //se obtiene el número de vértices.
 
-      if (nverts < 100)
-      {
-        cout << "EL Grafo de entrada es:"<<endl;
-        G.imprime();
-      }
+      // if (nverts < 100)
+      // {
+      //   cout << "EL Grafo de entrada es:"<<endl;
+      //   G.imprime();
+      // }
     }
   //============================================================================
   //realiza el reparto del nº de vertices a todo los procesos 
@@ -65,7 +65,7 @@ int main (int argc, char *argv[])
   tam_Bloque = nverts /size; 
 
   vector_aux_K = new int[nverts];
-  matriz_local = new int [tam_Bloque * nverts];
+  matriz_local = new int [tam_comp];
   //============================================================================
   // Repartimos una fila por cada proceso, es posible hacer la reparticion de esta
   // manera ya que la matriz esta creada como un unico vector.
@@ -97,7 +97,7 @@ int main (int argc, char *argv[])
       root = k / tam_Bloque;
       local = k % tam_Bloque;
     
-      if (k >= iInit && k <= iEnd)
+      if (k >= iInit && k < iEnd)
       for(int jL = 0; jL < nverts; jL++)
         vector_aux_K[jL] = matriz_local[local * nverts + jL ];        
       //***********  Compartiendo  k   ********************      
@@ -134,15 +134,15 @@ int main (int argc, char *argv[])
   //============================================================================
    if (rank == 0)//solo lo realiza el proceso 0
    {
-      if (nverts < 100)
-      {
-         cout << endl<<"EL Grafo con las distancias de los caminos más cortos es:"<<endl<<endl;
-        G.imprime();
-      } 
-     cout<< "Tiempo gastado= "<<t<<endl<<endl; 
+     //  if (nverts < 100)
+     //  {
+     //     cout << endl<<"EL Grafo con las distancias de los caminos más cortos es:"<<endl<<endl;
+     //    G.imprime();
+     //  } 
+     // cout<< "Tiempo gastado= "<<t<<endl<<endl; 
+    cout<< t << "\t";
    }
 
-   free(ptr_matriz);
    free(matriz_local);
    free(vector_aux_K);
    
